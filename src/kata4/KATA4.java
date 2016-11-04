@@ -1,35 +1,21 @@
 package kata4;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class KATA4 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
 
-        File file = new File("c:\\pub\\tmp");
-
-        // llamamos al procedimiento print
-        print(file.listFiles(), ""); //listFile -> array de ficheros
-    }
-
-    private static void print(File[] files, String indent) {
-
-        // si es vacia o nual que salga
-        if (files == null) {
-            return;
-        }
-        for (File file : files) {
-            //imprimimos el indent y comprobamos si es un directorio
-                // si es asi +, sino -
-            System.out.println(indent
-                    + (file.isDirectory() ? "+" : "-") + file.getName());
-
-            // si no es un directorio o está oculto que pase a la siguiente
-            if (!file.isDirectory() || file.isHidden()) {
-                continue;
-            }
-            //llamada recursiva
-            print(file.listFiles(), indent +"  ");
-        }
+        // nombre de la cadena del fichero
+        String fileName = "emailsfilev1.txt"; 
+        ArrayList<String> mailList = MailListReader.read(fileName);
+        Histogram<String> histogram = MailHistogramBuilder.build(mailList);
+        HistogramDisplay histoDisplay = new HistogramDisplay(histogram);
+        
+        histoDisplay.execute();
+        
     }
 }
