@@ -1,6 +1,7 @@
 package kata4;
 
 import java.awt.Dimension;
+import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -14,32 +15,55 @@ public class HistogramDisplay extends ApplicationFrame{
     public HistogramDisplay(Histogram<String> histo) {
         super("HISTOGRAM");
         this.histo = histo;
+          // establecemos panel contenedor
         setContentPane(createPanel());
+        // pack() = pone la ventana con el tamaño mínimo para que todos
+        //los componentes sean visibles
         pack();
     }
     
-    private ChartPanel createPanel(){
-        ChartPanel chartPanel = new ChartPanel (createChart(createDataset()));
-        chartPanel.setPreferredSize(new Dimension(600,400));
+    public void execute(){
+        // hacemos visible la ventana
+        setVisible(true);
+    }
+    
+    private JPanel createPanel(){
+        // creamos ventana, panel y panel para datos
+        ChartPanel chartPanel = new ChartPanel(createChart(createDataset()));
+        
+        
+        // establecemos tamaño
+        chartPanel.setPreferredSize(new Dimension(500,400));
+        
+        // devolvemos chartPanel
         return chartPanel;
     }
     
-    private JFreeChart createChart(DefaultCategoryDataset dataset){
-        JFreeChart chart = ChartFactory.createBarChart(
-            "Histogram de Dominios","DOM","N",
-            dataset, PlotOrientation.VERTICAL,
-            false,false,false);
+    
+    // creación del panel: titulo, etiqueta horizontal, etiqueta vertical, conjunto datos, orientación, etiqueta bajo gráfico, -, -.
+    private JFreeChart createChart(DefaultCategoryDataset dataSet){
+        JFreeChart chart = ChartFactory.createBarChart("JFreecharHistogram",
+                                                      "Dominois email", 
+                                                      "Nº Emails", 
+                                                      dataSet, 
+                                                      PlotOrientation.VERTICAL, 
+                                                      false, 
+                                                      rootPaneCheckingEnabled, 
+                                                      rootPaneCheckingEnabled 
+                );
         return chart;
+        
     }
     
+    // creación del conjunto de datos
     private DefaultCategoryDataset createDataset(){
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (String key : histo.keySet()) dataset.addValue(histo.get(key), "", key);
-        return dataset;
+        DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
+        dataSet.addValue(10, "", "gmail.com");
+        dataSet.addValue(15, "", "ulpgc.com");
+        dataSet.addValue(12, "", "ull.com");
+        dataSet.addValue(4, "", "hotmail.com");
+        
+        return dataSet;
     }
     
-    public void execute(){
-        setVisible(true);
-    }
-            
 }
